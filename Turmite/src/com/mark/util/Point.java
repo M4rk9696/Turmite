@@ -11,26 +11,28 @@ public class Point {
 		this.direction = Direction.NORTH;
 	}
 	
-	public void inc() {
-		switch(direction) {
+	public void inc(int sz) {
+		switch(this.direction) {
 		case NORTH:
-			y -= 1;
+			y -= sz;
 			break;
 		case SOUTH:
-			y += 1;
+			y += sz;
 			break;
 		case WEST:
-			x -= 1;
+			x -= sz;
+			break;
 		case EAST:
-			x += 1;
+			x += sz;
 		}
 	}
 	
 	public void turn(String side) {
 		if(side == "LEFT")
-			direction.rotate(-1);
+			direction = direction.rotate(-1);
 		if(side == "RIGHT")
-			direction.rotate(1);
+			direction = direction.rotate(1);
+//		System.out.println(direction);
 	}
 	
 	public enum Direction {
@@ -46,12 +48,13 @@ public class Point {
 		public int getint() {
 			return dir;
 		}
-		public void rotate(int x) {
-			dir += x;
-			if(dir > 3)
-				dir -= 4;
-			if(dir < 0)
-				dir += 4;
+		public int mod(int a, int b) {
+			if(a < 0)
+				a += b;
+			return a%b;
+		}
+		public Direction rotate(int x) {
+			return values()[mod(dir + x, 4)];
 		}
 	}
 
